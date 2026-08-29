@@ -3,6 +3,7 @@ using Gateway.Application.Options;
 using Gateway.Application.Services.AuthService;
 using Gateway.Application.Services.JwtService;
 using Gateway.Domain;
+using Gateway.Domain.Constants;
 using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -82,6 +83,31 @@ builder.Configuration.GetSection("Jwt"));
             });
 
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CustomerOnly", policy =>
+                {
+                    policy.RequireRole(RolesConstants.Customer);
+                });
+
+                options.AddPolicy("AdminOnly", policy =>
+                {
+                    policy.RequireRole(RolesConstants.Admin);
+                });
+
+                options.AddPolicy("CustomerOrAdmin", policy =>
+                {
+                    policy.RequireRole(RolesConstants.Customer, RolesConstants.Admin);
+                });
+
+                options.AddPolicy("AllowAnonymous", policy =>
+                {
+                    policy.RequireAssertion(_ => true);
+                });
+
+            });
+
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -121,6 +147,12 @@ builder.Configuration.GetSection("Jwt"));
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+            builder.Services
+                .AddReverseProxy()
+                .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+                .AddTransforms<UserHeadersTransformProvider>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -137,6 +169,8 @@ builder.Configuration.GetSection("Jwt"));
 
 
             app.MapControllers();
+
+            app.MapReverseProxy();
 
             app.Run();
         }
