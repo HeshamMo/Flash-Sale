@@ -33,7 +33,7 @@ namespace ProductManager.Application.Services.ProductMessageServices.ProductPubl
 
             await channel.BasicPublishAsync(
                   exchange: RabbitMqConstants.EXCHANGE_ORDER_Topic,
-                  routingKey: RabbitMqConstants.QUEUE_ORDER_FAILED,
+                  routingKey: RabbitMqConstants.ROUTING_KEY_ORDER_FAILED,
                   body: ConvertObjectToMQBody(new OrderFailedMessage(orderId))
                   , basicProperties: basicProperties,
                   mandatory: false

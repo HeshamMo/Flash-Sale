@@ -1,7 +1,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Product_Service.MessagingQueue;
+using Product_Service.MessagingQueue.Consumers;
 using ProductManager.Application.Mapper;
+using ProductManager.Application.Services.ProductMessageServices;
+using ProductManager.Application.Services.ProductMessageServices.ProductPublisher;
 using ProductManager.Application.Services.ProductService;
 using ProductManager.Domain.Data;
 using RabbitMQ.Client;
@@ -21,7 +24,8 @@ namespace ProductManager.API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
             builder.Services.AddScoped<IProductService, ProductService>();
-
+            builder.Services.AddScoped<IProductPublisher, ProductPublisher>();
+            builder.Services.AddScoped<IProductMessageHandler, ProductMessageHandler>();
             // AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -38,13 +42,14 @@ namespace ProductManager.API
                     HostName = configuration["RabbitMQ:HostName"],
                     UserName = configuration["RabbitMQ:UserName"],
                     Password = configuration["RabbitMQ:Password"],
+                    Port = int.Parse(configuration["RabbitMQ:Port"]!),
                 };
 
                 return factory.CreateConnectionAsync().GetAwaiter().GetResult();
             });
 
             builder.Services.AddHostedService<RabbitMQSetupService>();
-
+            builder.Services.AddHostedService<OrderCreatedConsumer>();
 
             var app = builder.Build();
 

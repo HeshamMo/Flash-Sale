@@ -41,8 +41,8 @@ public class ProductsController:ControllerBase
     public async Task<IActionResult> Update(Guid id, [FromBody] ProductDto dto)
     {
         if(id != dto.Id) return BadRequest();
-        var ok = await _service.UpdateAsync(dto);
-        if(!ok) return NotFound();
+        var updatedSuccessfuly = await _service.UpdateAsync(dto);
+        if(!updatedSuccessfuly) return NotFound();
         return NoContent();
     }
 

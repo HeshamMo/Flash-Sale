@@ -38,8 +38,7 @@ public class ProductService:IProductService
     {
         Product p = null;
         var product = _mapper.Map<Product>(dto);
-        if(product.Id == Guid.Empty)
-            product.Id = Guid.NewGuid();
+        product.Id = Guid.NewGuid();
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
         return _mapper.Map<ProductDto>(product);
@@ -76,7 +75,12 @@ public class ProductService:IProductService
             DbConstants.ProductQuantityColumn,
             typeof(int));
 
-        orderItemsAsTable.Rows.Add(orderItems.ToArray());
+        foreach(var item in orderItems)
+        {
+            orderItemsAsTable.Rows.Add(
+                item.ProductId,
+                item.ProductQuantity);
+        }
 
         var parameter = new SqlParameter(
             DbConstants.OrderItemsParameter,
@@ -86,11 +90,11 @@ public class ProductService:IProductService
             TypeName = DbConstants.OrderItemTableType
         };
 
-        var result = await _db.Database
+        var result = (await _db.Database
             .SqlQueryRaw<bool>(
                 DbConstants.ReserveStockCommand,
-                parameter)
-            .SingleOrDefaultAsync();
+                parameter).ToListAsync<bool>()).First<bool>();
+
 
         return result;
     }
@@ -98,7 +102,7 @@ public class ProductService:IProductService
 
     public async Task<bool> ReleaseStockAsync(ICollection<OrderItem> orderItems)
     {
-        return true;
+        throw new NotImplementedException();
     }
 }
 

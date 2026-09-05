@@ -31,7 +31,7 @@ namespace ProductManager.Application.Services.ProductMessageServices
             }
 
 
-            var ReseverStockSuccess = await _productService.ReserveStockAsync(message.orderProducts);
+            var ReseverStockSuccess = await _productService.ReserveStockAsync(message.OrderProducts);
             if(ReseverStockSuccess is true)
             {
                 await _productPublisher.publishOrderApproved(channel, message.OrderId);

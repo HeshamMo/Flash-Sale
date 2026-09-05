@@ -36,7 +36,8 @@ namespace Product_Service.MessagingQueue.Consumers
                 {
 
                     var jsonMessage = Encoding.UTF8.GetString(args.Body.ToArray());
-                    var orderCreatedMessage = JsonSerializer.Deserialize<OrderCreatedMessage>(jsonMessage);
+                    var orderCreatedMessage = JsonSerializer.Deserialize<OrderCreatedMessage>(
+                        jsonMessage, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                     using var scope = _scopeFactory.CreateScope();
 
