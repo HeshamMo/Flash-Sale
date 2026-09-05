@@ -1,10 +1,8 @@
-﻿using System;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Product_Service.Dtos;
+﻿using ProductManager.Application.MessagingQueue.Messages;
+using ProductManager.Dtos;
 
-namespace Product_Service.Application.Services.ProductService;
+
+namespace ProductManager.Application.Services.ProductService;
 
 public interface IProductService
 {
@@ -13,4 +11,10 @@ public interface IProductService
     Task<ProductDto> CreateAsync(ProductDto dto);
     Task<bool> UpdateAsync(ProductDto dto);
     Task<bool> DeleteAsync(Guid id);
+
+    Task<bool> ReserveStockAsync(ICollection<OrderItem> orderItems);
+    Task<bool> ReleaseStockAsync(ICollection<OrderItem> orderItems);
+
+
+
 }

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37216.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.API", "Product Service\Product.API.csproj", "{09C36D2A-063D-4846-A661-34139E19C291}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManager.API", "Product Service\ProductManager.API.csproj", "{09C36D2A-063D-4846-A661-34139E19C291}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E528BBC3-1C26-8C35-F682-23718816ADCD} = {E528BBC3-1C26-8C35-F682-23718816ADCD}
 		{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1} = {F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain", "Domain\Product.Domain.csproj", "{E528BBC3-1C26-8C35-F682-23718816ADCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManager.Domain", "Domain\ProductManager.Domain.csproj", "{E528BBC3-1C26-8C35-F682-23718816ADCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Application", "Application\Product.Application.csproj", "{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManager.Application", "Application\ProductManager.Application.csproj", "{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E528BBC3-1C26-8C35-F682-23718816ADCD} = {E528BBC3-1C26-8C35-F682-23718816ADCD}
 	EndProjectSection

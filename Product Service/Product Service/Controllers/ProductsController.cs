@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Product_Service.Application.Services.ProductService;
-using Product_Service.Dtos;
+using ProductManager.Application.Services.ProductService;
+using ProductManager.Dtos;
 
-namespace Product_Service.Controllers;
+namespace ProductManager.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

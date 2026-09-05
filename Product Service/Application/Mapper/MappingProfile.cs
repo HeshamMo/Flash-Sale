@@ -1,13 +1,15 @@
 using AutoMapper;
-using Product_Service.Dtos;
-using Product_Service.Models;
+using ProductManager.Domain.Models;
+using ProductManager.Dtos;
 
-namespace Product_Service.Application.Mapper;
 
-public class MappingProfile : Profile
+namespace ProductManager.Application.Mapper;
+
+public class MappingProfile:Profile
 {
     public MappingProfile()
     {
         CreateMap<Product, ProductDto>().ReverseMap();
     }
+
 }

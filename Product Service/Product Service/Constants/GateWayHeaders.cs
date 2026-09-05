@@ -1,4 +1,4 @@
-﻿namespace Product_Service.Domain.Contants
+﻿namespace ProductManager.Domain.Contants
 {
     public class GateWayHeaders
     {

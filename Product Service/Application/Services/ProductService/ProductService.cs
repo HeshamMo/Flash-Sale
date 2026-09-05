@@ -1,13 +1,16 @@
 ﻿
 using AutoMapper;
-using global::Product_Service.Data;
-using global::Product_Service.Dtos;
-using global::Product_Service.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using ProductManager.Application.MessagingQueue.Messages;
+using ProductManager.Domain.Data;
+using ProductManager.Domain.Models;
+using ProductManager.Dtos;
+using System.Data;
 
-namespace Product_Service.Application.Services.ProductService;
+namespace ProductManager.Application.Services.ProductService;
 
-public class ProductService : IProductService
+public class ProductService:IProductService
 {
     private readonly ApplicationDbContext _db;
     private readonly IMapper _mapper;
@@ -27,14 +30,15 @@ public class ProductService : IProductService
     public async Task<ProductDto?> GetByIdAsync(Guid id)
     {
         var p = await _db.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        if (p == null) return null;
+        if(p == null) return null;
         return _mapper.Map<ProductDto>(p);
     }
 
     public async Task<ProductDto> CreateAsync(ProductDto dto)
     {
+        Product p = null;
         var product = _mapper.Map<Product>(dto);
-        if (product.Id == Guid.Empty)
+        if(product.Id == Guid.Empty)
             product.Id = Guid.NewGuid();
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
@@ -44,7 +48,7 @@ public class ProductService : IProductService
     public async Task<bool> UpdateAsync(ProductDto dto)
     {
         var existing = await _db.Products.FirstOrDefaultAsync(x => x.Id == dto.Id);
-        if (existing == null) return false;
+        if(existing == null) return false;
         _mapper.Map(dto, existing);
         await _db.SaveChangesAsync();
         return true;
@@ -53,9 +57,47 @@ public class ProductService : IProductService
     public async Task<bool> DeleteAsync(Guid id)
     {
         var existing = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
-        if (existing == null) return false;
+        if(existing == null) return false;
         _db.Products.Remove(existing);
         await _db.SaveChangesAsync();
+        return true;
+    }
+
+
+    public async Task<bool> ReserveStockAsync(ICollection<OrderItem> orderItems)
+    {
+        var orderItemsAsTable = new DataTable();
+
+        orderItemsAsTable.Columns.Add(
+            DbConstants.ProductIdColumn,
+            typeof(Guid));
+
+        orderItemsAsTable.Columns.Add(
+            DbConstants.ProductQuantityColumn,
+            typeof(int));
+
+        orderItemsAsTable.Rows.Add(orderItems.ToArray());
+
+        var parameter = new SqlParameter(
+            DbConstants.OrderItemsParameter,
+            orderItemsAsTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = DbConstants.OrderItemTableType
+        };
+
+        var result = await _db.Database
+            .SqlQueryRaw<bool>(
+                DbConstants.ReserveStockCommand,
+                parameter)
+            .SingleOrDefaultAsync();
+
+        return result;
+    }
+
+
+    public async Task<bool> ReleaseStockAsync(ICollection<OrderItem> orderItems)
+    {
         return true;
     }
 }

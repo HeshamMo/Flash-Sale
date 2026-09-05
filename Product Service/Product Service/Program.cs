@@ -1,11 +1,12 @@
 
 using Microsoft.EntityFrameworkCore;
-using Product_Service.Application.Mapper;
-using Product_Service.Application.Services.ProductService;
-using Product_Service.Data;
+using Product_Service.MessagingQueue;
+using ProductManager.Application.Mapper;
+using ProductManager.Application.Services.ProductService;
+using ProductManager.Domain.Data;
+using RabbitMQ.Client;
 
-
-namespace Product_Service
+namespace ProductManager.API
 {
     public class Program
     {
@@ -27,6 +28,23 @@ namespace Product_Service
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSingleton<IConnection>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+
+                var factory = new ConnectionFactory
+                {
+                    HostName = configuration["RabbitMQ:HostName"],
+                    UserName = configuration["RabbitMQ:UserName"],
+                    Password = configuration["RabbitMQ:Password"],
+                };
+
+                return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+            });
+
+            builder.Services.AddHostedService<RabbitMQSetupService>();
+
 
             var app = builder.Build();
 

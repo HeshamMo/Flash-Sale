@@ -1,7 +1,7 @@
 ﻿
-using Product_Service.Domain.Contants;
+using ProductManager.Domain.Contants;
 
-namespace Product_Service.Extensions
+namespace ProductManager.Extensions
 {
     public static class HttpRequestExtensions
     {

@@ -1,4 +1,4 @@
-namespace Product_Service.Models;
+namespace ProductManager.Domain.Models;
 
 public class Product
 {
