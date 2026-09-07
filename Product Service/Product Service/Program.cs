@@ -8,6 +8,7 @@ using ProductManager.Application.Services.ProductMessageServices.ProductPublishe
 using ProductManager.Application.Services.ProductService;
 using ProductManager.Domain.Data;
 using RabbitMQ.Client;
+using StackExchange.Redis;
 
 namespace ProductManager.API
 {
@@ -47,6 +48,10 @@ namespace ProductManager.API
 
                 return factory.CreateConnectionAsync().GetAwaiter().GetResult();
             });
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis")!));
+
 
             builder.Services.AddHostedService<RabbitMQSetupService>();
             builder.Services.AddHostedService<OrderCreatedConsumer>();

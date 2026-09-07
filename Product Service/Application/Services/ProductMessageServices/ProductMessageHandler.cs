@@ -25,13 +25,14 @@ namespace ProductManager.Application.Services.ProductMessageServices
         {
             using var channel = await _connection.CreateChannelAsync();
 
-            if(message is null)
+            if(message is null || message.OrderProducts.Any() is false)
             {
                 await _productPublisher.PublishOrderFail(channel, message.OrderId);
             }
 
 
             var ReseverStockSuccess = await _productService.ReserveStockAsync(message.OrderProducts);
+
             if(ReseverStockSuccess is true)
             {
                 await _productPublisher.publishOrderApproved(channel, message.OrderId);
