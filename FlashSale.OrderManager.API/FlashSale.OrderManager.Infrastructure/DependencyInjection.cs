@@ -11,6 +11,7 @@ using FlashSale.OrderManager.Infrastructure.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
+using StackExchange.Redis;
 
 namespace FlashSale.OrderManager.Infrastructure
 {
@@ -31,6 +32,15 @@ namespace FlashSale.OrderManager.Infrastructure
             services.AddScoped<IOrderMessageHandler, OrderMessageHandler>();
 
             services.AddSingleton<IOrderPublisher, OrderPublisher>();
+
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                var redisConnection =
+                    configuration.GetConnectionString("Redis");
+
+                return ConnectionMultiplexer.Connect(redisConnection!);
+            });
+
             services.AddSingleton<IConnection>(sp =>
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();

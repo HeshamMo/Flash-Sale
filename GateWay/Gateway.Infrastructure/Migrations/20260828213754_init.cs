@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Gateway.Domain.Migrations
+namespace Gateway.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init:Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -5,6 +5,8 @@ using Yarp.ReverseProxy.Transforms.Builder;
 
 public class UserHeadersTransformProvider:ITransformProvider
 {
+    private const string RequireAuthenticatedUser = "RequireAuthenticatedUser";
+
     public void ValidateRoute(TransformRouteValidationContext context)
     {
     }
@@ -15,6 +17,15 @@ public class UserHeadersTransformProvider:ITransformProvider
 
     public void Apply(TransformBuilderContext context)
     {
+        if(context.Route.Metadata is null ||
+    !context.Route.Metadata.TryGetValue(
+        RequireAuthenticatedUser,
+        out var value) ||
+    !string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
         context.AddRequestTransform(async transformContext =>
         {
             var httpContext = transformContext.HttpContext;

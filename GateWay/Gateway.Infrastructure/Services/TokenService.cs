@@ -1,8 +1,10 @@
 ﻿using Gateway.Application.Options;
-using Gateway.Domain;
+using Gateway.Application.Services.JwtService;
 using Gateway.Domain.Contants;
 using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
+using Gateway.Infrastructure.Persistance;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Gateway.Application.Services.JwtService
+
+namespace Gateway.Infrastructure.Services.JwtService
 {
     public class TokenService:ITokenService
     {
@@ -125,7 +128,7 @@ namespace Gateway.Application.Services.JwtService
 
         }
 
-        public async Task AddRefreshTokenToCookies(string refreshToken, DateTime refreshTokenExpiration, HttpContext httpContextAccessor)
+        public void AddRefreshTokenToCookies(string refreshToken, DateTime refreshTokenExpiration, HttpContext httpContextAccessor)
         {
             var refreshTokenCookieOptions = new CookieOptions()
             {
@@ -142,5 +145,7 @@ namespace Gateway.Application.Services.JwtService
 
 
         }
+
+
     }
 }

@@ -1,11 +1,12 @@
-
 using Gateway.Application.Options;
 using Gateway.Application.Services.AuthService;
 using Gateway.Application.Services.JwtService;
-using Gateway.Domain;
 using Gateway.Domain.Constants;
 using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
+using Gateway.Infrastructure.Persistance;
+using Gateway.Infrastructure.Services.AuthService;
+using Gateway.Infrastructure.Services.JwtService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -159,10 +160,26 @@ builder.Configuration.GetSection("Jwt"));
             if(app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint(
+                   "/swagger/v1/swagger.json",
+                   "Gateway API");
+
+                    options.SwaggerEndpoint(
+                        "/order/swagger/v1/swagger.json",
+                        "Order API");
+
+                    options.SwaggerEndpoint(
+                        "/inventory/swagger/v1/swagger.json",
+                        "Inventory API");
+                });
             }
 
             app.UseHttpsRedirection();
+
+            // TEMPORARY DEBUG
+
 
             app.UseAuthentication();
             app.UseAuthorization();

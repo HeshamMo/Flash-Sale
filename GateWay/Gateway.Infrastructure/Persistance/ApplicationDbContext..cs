@@ -1,8 +1,9 @@
-﻿using Gateway.Domain.Entities;
+﻿
+using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace Gateway.Domain
+namespace Gateway.Infrastructure.Persistance
 {
     public class ApplicationDbContext
         :IdentityDbContext<User, Role, Guid>

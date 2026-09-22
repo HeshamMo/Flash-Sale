@@ -1,4 +1,6 @@
-﻿using Gateway.Domain.Entities;
+﻿
+
+using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Http;
 
@@ -12,6 +14,6 @@ namespace Gateway.Application.Services.JwtService
         public Task<RefreshToken> RevokeOldAndGenerateNewRefreshToken(string oldRefreshToken, User user);
         public Task<bool> RevokeToken(string refreshToken);
 
-        public Task AddRefreshTokenToCookies(string refreshToken, DateTime refreshTokenExpiration, HttpContext httpContext);
+        public void AddRefreshTokenToCookies(string refreshToken, DateTime refreshTokenExpiration, HttpContext httpContext);
     }
 }

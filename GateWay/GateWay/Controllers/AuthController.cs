@@ -29,8 +29,8 @@ namespace GateWay.API.Controllers
             if(logInResult.isAuthenticated is not true) { return BadRequest(logInResult); }
 
 
-            await _tokenService.AddRefreshTokenToCookies(logInResult.RefreshToken,
-                logInResult.RefreshTokenExpiration, HttpContext);
+            _tokenService.AddRefreshTokenToCookies(logInResult.RefreshToken,
+               logInResult.RefreshTokenExpiration, HttpContext);
             return Ok(logInResult);
         }
 
@@ -43,14 +43,14 @@ namespace GateWay.API.Controllers
             if(registerationResult.isAuthenticated is not true) { return BadRequest(registerationResult); }
 
 
-            await _tokenService.AddRefreshTokenToCookies(registerationResult.RefreshToken,
-                registerationResult.RefreshTokenExpiration, HttpContext);
+            _tokenService.AddRefreshTokenToCookies(registerationResult.RefreshToken,
+               registerationResult.RefreshTokenExpiration, HttpContext);
             return Ok(registerationResult);
         }
 
 
         [Authorize(Roles = "admin,customer")]
-        [HttpGet]
+        [HttpGet("GetAllClaims")]
         public async Task<IActionResult> getAuthorizedUserInfo()
         {
             var claims = HttpContext.User.Claims.Select(c => new { Type = c.Type, value = c.Value }).ToList();

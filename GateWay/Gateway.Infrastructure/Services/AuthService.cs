@@ -1,11 +1,13 @@
 ﻿using Gateway.Application.Dtos.Authentication;
+using Gateway.Application.Services.AuthService;
 using Gateway.Application.Services.JwtService;
 using Gateway.Domain.Constants;
 using Gateway.Domain.Entities;
 using Gateway.Domain.Entities.Auth;
+
 using Microsoft.AspNetCore.Identity;
 
-namespace Gateway.Application.Services.AuthService
+namespace Gateway.Infrastructure.Services.AuthService
 {
     public class AuthService:IAuthService
     {
