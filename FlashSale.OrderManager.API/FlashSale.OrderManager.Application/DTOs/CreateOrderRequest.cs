@@ -2,6 +2,6 @@
 {
     public class CreateOrderRequest
     {
-        public List<CreateOrderItemRequest> Items { get; set; } = new();
+        public List<CreateOrderItemRequest> Products { get; set; } = new();
     }
 }

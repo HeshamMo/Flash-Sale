@@ -8,6 +8,7 @@ namespace FlashSale.OrderManager.Application.Interfaces
 
         Task<IEnumerable<OrderResponse>> GetOrdersByUserIdAsync();
 
+        Task<IEnumerable<OrderResponse>> GetAllOrders();
         Task<OrderResponse> CreateOrderAsync(
             CreateOrderRequest request);
 

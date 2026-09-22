@@ -11,6 +11,11 @@ namespace FlashSale.OrderManager.Infrastructure.Redis
         private readonly ISubscriber _subscriber;
 
 
+        public RedisDistributedLock(IConnectionMultiplexer redis)
+        {
+            _db = redis.GetDatabase();
+            _subscriber = redis.GetSubscriber();
+        }
 
         public async Task<string?> AcquireAsync(string lockType, string objectToLockId, TimeSpan lockExpiry, TimeSpan maxWait, CancellationToken ct = default)
         {

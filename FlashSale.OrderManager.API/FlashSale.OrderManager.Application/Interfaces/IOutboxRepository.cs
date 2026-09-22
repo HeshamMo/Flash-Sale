@@ -6,10 +6,11 @@ namespace FlashSale.OrderManager.Application.Interfaces
     public interface IOutboxRepository
     {
         Task AddAsync(OutBoxMessage message);
-        Task<List<OutBoxMessage>> GetUnpublishedAsync(int batchSize, int leaseSeconds = 30);
+        Task<List<OutBoxMessage>> GetUnpublishedAsync(OutboxEventType eventType);
         Task<OutBoxMessage?> GetOutBoxMessageByIdAsync(Guid messageId);
         Task MarkAsPublishedAsync(OutBoxMessage message);
-        Task MarkAsFailedAsync(OutBoxMessage message, string error, int maxRetries = 5);
+        Task MarkAsFailedAsync(OutBoxMessage message, string error);
         OutBoxMessage CreateOutBoxMessage(OutboxEventType eventType, object payload, DateTimeOffset occurredOnUtc);
+        OutBoxMessage CreateOrderCreatedOutBoxMessage(Order order, DateTimeOffset occurredOnUtc);
     }
 }

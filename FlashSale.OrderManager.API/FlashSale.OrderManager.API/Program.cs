@@ -1,12 +1,12 @@
 
+using FlashSale.OrderManager.API.Middlewares;
 using FlashSale.OrderManager.Application.Interfaces;
+using FlashSale.OrderManager.Application.Options;
 using FlashSale.OrderManager.Application.Services;
+using FlashSale.OrderManager.Infrastructure;
 using FlashSale.OrderManager.Infrastructure.Persistance;
-using FlashSale.OrderManager.Infrastructure.Persistance.Repositories;
-using FlashSale.OrderManager.Infrastructure.Persistance.UnitsOfWork;
 using Microsoft.EntityFrameworkCore;
 using OrderManager.Application.Mapping;
-
 namespace FlashSale.OrderManager.API
 {
     public class Program
@@ -25,22 +25,30 @@ namespace FlashSale.OrderManager.API
                     options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 
 
+            builder.Services.Configure<OutboxOptions>(
+    builder.Configuration.GetSection("Outbox"));
+
+
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<OrderProfile>();
             });
 
+
+
+
             builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddScoped<IOutboxRepository, OutboxRepository>();
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            builder.Services.AddScoped<IOrderService, OrderService>();
 
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
             builder.Services.AddSingleton(TimeProvider.System);
+
+
+            builder.Services.AddInfrastructure(configuration: builder.Configuration);
+
+
 
 
             var app = builder.Build();
@@ -50,6 +58,7 @@ namespace FlashSale.OrderManager.API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseMiddleware<AddStaticUserDevelopmentMiddleware>();
             }
 
             app.UseHttpsRedirection();

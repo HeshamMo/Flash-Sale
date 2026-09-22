@@ -10,8 +10,8 @@ namespace FlashSale.OrderManager.Application.DTOs.Orders
 
         public OrderStatus Status { get; set; }
 
-        public DateTime CreatedAtUtc { get; set; }
+        public DateTimeOffset CreatedAtUtc { get; set; }
 
-        public List<OrderItemResponse> Items { get; set; } = new();
+        public List<OrderProductResponse> Products { get; set; } = new();
     }
 }

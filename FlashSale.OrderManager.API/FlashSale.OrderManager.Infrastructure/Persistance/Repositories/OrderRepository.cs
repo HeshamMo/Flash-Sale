@@ -18,18 +18,23 @@ namespace FlashSale.OrderManager.Infrastructure.Persistance.Repositories
             await _context.Orders.AddAsync(order);
         }
 
+        public async Task<IEnumerable<Order>> GetAllOrders()
+        {
+            return await _context.Orders.ToListAsync();
+        }
+
         public async Task<Order?> GetByIdAsync(Guid orderId)
         {
             return await _context.Orders
-                .Include(x => x.Items)
+                .Include(x => x.Products)
                 .FirstOrDefaultAsync(x => x.Id == orderId);
         }
 
-        public async Task<List<Order>> GetOrdersByUserId(Guid userId)
+        public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid userId)
         {
             return await _context.Orders
                 .Where(x => x.CustomerId == userId)
-                .Include(x => x.Items)
+                .Include(x => x.Products)
                 .AsSplitQuery()
                 .ToListAsync();
         }

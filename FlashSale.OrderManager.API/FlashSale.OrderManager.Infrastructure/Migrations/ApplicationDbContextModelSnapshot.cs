@@ -44,7 +44,7 @@ namespace FlashSale.OrderManager.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("FlashSale.OrderManager.Domain.Models.OrderItem", b =>
+            modelBuilder.Entity("FlashSale.OrderManager.Domain.Models.OrderProducts", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,10 +105,10 @@ namespace FlashSale.OrderManager.Infrastructure.Migrations
                     b.ToTable("OutboxMessages");
                 });
 
-            modelBuilder.Entity("FlashSale.OrderManager.Domain.Models.OrderItem", b =>
+            modelBuilder.Entity("FlashSale.OrderManager.Domain.Models.OrderProducts", b =>
                 {
                     b.HasOne("FlashSale.OrderManager.Domain.Models.Order", "Order")
-                        .WithMany("Items")
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -118,7 +118,7 @@ namespace FlashSale.OrderManager.Infrastructure.Migrations
 
             modelBuilder.Entity("FlashSale.OrderManager.Domain.Models.Order", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

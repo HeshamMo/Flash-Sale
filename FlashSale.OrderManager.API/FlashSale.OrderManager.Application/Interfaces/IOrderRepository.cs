@@ -10,7 +10,7 @@ namespace FlashSale.OrderManager.Application.Interfaces
 
         Task UpdateAsync(Order order);
 
-
-        Task<List<Order>> GetOrdersByUserId(Guid userId);
+        Task<IEnumerable<Order>> GetAllOrders();
+        Task<IEnumerable<Order>> GetOrdersByUserId(Guid userId);
     }
 }

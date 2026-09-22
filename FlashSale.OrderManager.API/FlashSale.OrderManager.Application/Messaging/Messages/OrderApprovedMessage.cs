@@ -1,6 +1,6 @@
 ﻿namespace FlashSale.OrderManager.Application.Messaging.Messages
 {
-    public class OrderApprovedMessage
+    public class OrderApprovedMessage:IOrderMessage
     {
         public Guid OrderId { get; set; }
 

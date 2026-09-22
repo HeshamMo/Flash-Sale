@@ -4,7 +4,7 @@
 
 namespace FlashSale.OrderManager.Infrastructure.Migrations
 {
-    public partial class AddClaimOutboxMessagesProcedure:Migration
+    public partial class OutBoxMessage_SP:Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -17,7 +17,7 @@ namespace FlashSale.OrderManager.Infrastructure.Persistance.Configurations
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.HasMany(x => x.Items)
+            builder.HasMany(x => x.Products)
                 .WithOne(x => x.Order)
                 .HasForeignKey(x => x.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);

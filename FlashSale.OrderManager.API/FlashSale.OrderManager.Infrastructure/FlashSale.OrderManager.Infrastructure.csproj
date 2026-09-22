@@ -29,8 +29,4 @@
     <ProjectReference Include="..\FlashSale.OrderManager.Application\FlashSale.OrderManager.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MessagingQueue\OutBox\" />
-  </ItemGroup>
-
 </Project>

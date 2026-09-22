@@ -22,7 +22,7 @@ namespace FlashSale.OrderManager.Infrastructure.Persistance
 
         public virtual DbSet<Order> Orders { get; set; }
 
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<OrderProducts> OrderItems { get; set; }
         public virtual DbSet<OutBoxMessage> OutboxMessages { get; set; }
 
 

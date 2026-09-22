@@ -29,8 +29,11 @@ namespace FlashSale.OrderManager.API.Controllers
         [HttpGet("unpublished")]
         public async Task<IActionResult> GetUnpublished()
         {
-            var messages =
-                await _outboxRepository.GetUnpublishedAsync();
+
+
+            var result = await Task.WhenAll(_outboxRepository.GetUnpublishedAsync(Domain.Enums.OutboxEventType.OrderCreated)
+                            , _outboxRepository.GetUnpublishedAsync(Domain.Enums.OutboxEventType.OrderCancelled));
+            var messages = result.SelectMany(x => x).ToList();
 
             return Ok(messages);
         }

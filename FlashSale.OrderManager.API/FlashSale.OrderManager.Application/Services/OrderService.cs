@@ -26,15 +26,7 @@ namespace FlashSale.OrderManager.Application.Services
             _timeProvider = timeProvider;
         }
 
-        public Task<OrderResponse> CancelOrderAsync(Guid orderId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<OrderResponse> CompleteOrderAsync(Guid orderId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request)
         {
@@ -49,7 +41,7 @@ namespace FlashSale.OrderManager.Application.Services
             await _unitOfWork.Orders.AddAsync(order);
 
 
-            var outboxMessage = _unitOfWork.Outbox.CreateOutBoxMessage(OutboxEventType.OrderCreated, order, _timeProvider.GetUtcNow());
+            var outboxMessage = _unitOfWork.Outbox.CreateOrderCreatedOutBoxMessage(order, _timeProvider.GetUtcNow());
 
             await _unitOfWork.Outbox.AddAsync(outboxMessage);
 
@@ -69,6 +61,21 @@ namespace FlashSale.OrderManager.Application.Services
         {
             var order = await _unitOfWork.Orders.GetOrdersByUserId(_currentUser.GetUserId());
             return _mapper.Map<IEnumerable<OrderResponse>>(order);
+        }
+
+        public Task<OrderResponse> CancelOrderAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OrderResponse> CompleteOrderAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<OrderResponse>> GetAllOrders()
+        {
+            return _mapper.Map<IEnumerable<OrderResponse>>(await _unitOfWork.Orders.GetAllOrders());
         }
     }
 }

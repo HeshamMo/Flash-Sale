@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace FlashSale.OrderManager.Infrastructure.Persistance.Configurations
 {
     public class OrderItemConfiguration
-    :IEntityTypeConfiguration<OrderItem>
+    :IEntityTypeConfiguration<OrderProducts>
     {
-        public void Configure(EntityTypeBuilder<OrderItem> builder)
+        public void Configure(EntityTypeBuilder<OrderProducts> builder)
         {
             builder.HasKey(x => x.Id);
 

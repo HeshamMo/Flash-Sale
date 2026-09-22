@@ -11,8 +11,7 @@ namespace FlashSale.OrderManager.Domain.Models
 
         public DateTimeOffset CreatedAtUtc { get; set; }
 
-        public ICollection<OrderItem> Items { get; set; }
-            = new List<OrderItem>();
+        public ICollection<OrderProducts> Products { get; set; } = new List<OrderProducts>();
 
     }
 }

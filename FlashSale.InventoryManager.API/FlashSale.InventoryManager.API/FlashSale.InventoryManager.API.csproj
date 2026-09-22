@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e0eae01f-1b72-4751-b3e0-862639e277fb</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.31">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StackExchange.Redis" Version="3.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlashSale.InventoryManager.Application\FlashSale.InventoryManager.Application.csproj" />
+    <ProjectReference Include="..\FlashSale.InventoryManager.Domain\FlashSale.InventoryManager.Domain.csproj" />
+    <ProjectReference Include="..\FlashSale.InventoryManager.Infrastructure\FlashSale.InventoryManager.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
