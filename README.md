@@ -10,35 +10,10 @@ The system consists of:
 * **Order Manager** — order creation and order lifecycle
 * **Inventory Manager** — stock and inventory operations
 * **RabbitMQ** — asynchronous communication
-* **Redis** — distributed locking
+* **Redis** — Caching and distributed locking
 * **SQL Server / Entity Framework Core** — persistence
 
-```mermaid
-flowchart TD
-
-    Client([Client])
-    Gateway["API Gateway"]
-    Order["Order Manager"]
-    Inventory["Inventory Manager"]
-    Rabbit["RabbitMQ"]
-
-    Client -->|"HTTP / REST"| Gateway
-    Gateway -->|"HTTP / REST"| Order
-
-    Order -->|"Order Created"| Rabbit
-    Rabbit -->|"product.order-created"| Inventory
-
-    Inventory -->|"Order Approved"| Rabbit
-    Rabbit -->|"product.order-approved"| Order
-
-    Inventory -->|"Order Failed"| Rabbit
-    Rabbit -->|"product.order-failed"| Order
-
-    Order -->|"Order Cancelled"| Rabbit
-    Rabbit -->|"product.order-cancelled"| Rabbit
-```
-
----
+<img width="2850" height="1201" alt="diagramfullflow" src="https://github.com/user-attachments/assets/bbf91553-d746-4c0d-8d7f-1fa52518c46c" />
 
 # Program Flow
 
