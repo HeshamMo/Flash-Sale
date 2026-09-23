@@ -15,6 +15,32 @@ The system consists of:
 
 <img width="2850" height="1201" alt="diagramfullflow" src="https://github.com/user-attachments/assets/bbf91553-d746-4c0d-8d7f-1fa52518c46c" />
 
+## Development Environment
+
+The application runs locally using **Docker Compose** with all services connected through the `flashsale-network` bridge network.
+
+<img width="3815" height="2550" alt="mermaid-diagram (2)" src="https://github.com/user-attachments/assets/ad506106-f8fe-4b1b-92d8-3aef37cff7a5" />
+
+### Container Overview
+
+| Container                 | Purpose                       | Host Port |
+| ------------------------- | ----------------------------- | --------: |
+| `flashsale-gateway`       | API Gateway                   |    `5000` |
+| `flashsale-order`         | Order Manager API             |    `5001` |
+| `flashsale-inventory`     | Inventory Manager API         |    `5002` |
+| `flashsale-gateway-sql`   | Gateway database              |   `14331` |
+| `flashsale-order-sql`     | Order database                |   `14332` |
+| `flashsale-inventory-sql` | Inventory database            |   `14333` |
+| `flashsale-redis`         | Caching & distributed locking |    `6379` |
+| `flashsale-rabbitmq`      | Asynchronous messaging        |    `5672` |
+| RabbitMQ Management UI    | RabbitMQ administration       |   `15672` |
+
+The migration containers run once during startup, apply the corresponding **EF Core migrations**, and exit after successful completion.
+
+---
+
+## Program Flow
+
 # Program Flow
 
 ## 1. Request and Order Creation
